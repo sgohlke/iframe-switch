@@ -11,10 +11,10 @@
 <body>
     <iframe id="iframe" src="https://sgohlke.github.io/obstimmerlecker/" onload="triggerSwitch()" onerror="handleError()"></iframe>
     <script>
-        const IFRAME_OBST = 'https://sgohlke.github.io/obstimmerlecker123/';
+        const IFRAME_OBST = 'https://sgohlke.github.io/obstimmerlecker/';
         const IFRAME_DICE = 'https://sgohlke.github.io/rollthedice-lighthouse/';
     
-        let currentActiveIframe= IFRAME_OBST; 
+        let currentActiveIframe= IFRAME_OBST;
 
         function triggerSwitch() {
             setTimeout(function() {
@@ -22,13 +22,18 @@
                 console.log('Switch to other content, next active is', nextActiveIframe);
                 // Note: Changing iframe src triggers onload!
                 document.getElementById('iframe').src = nextActiveIframe
+                /*
+                * TODO: Error handling inside iframes is a bit tricky. If the requested source is not on the same origin
+                * as the page using this script you might not be able to access contentWindow.document. If you can access it, maybe
+                * check if there is content that indicates an error occured and think about how to handle it, maybe switching to the
+                * other source and try it again after the timeout has passed.
+                */
                 try {
                     const documentConent = document.getElementById('iframe').contentWindow.document.body.innerText
                     console.log('new content is', documentConent)
                 } catch (error) {
                     console.log('Cannot get new content, error is', JSON.stringify(error))
                 }
-                console.log('new content is', document.getElementById('iframe').contentWindow.document.body.innerHTML)
                 currentActiveIframe = nextActiveIframe
                 console.log('Switching succesful, new active is', currentActiveIframe);
             }, 3000);
