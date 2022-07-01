@@ -22,6 +22,12 @@
                 console.log('Switch to other content, next active is', nextActiveIframe);
                 // Note: Changing iframe src triggers onload!
                 document.getElementById('iframe').src = nextActiveIframe
+                try {
+                    const documentConent = document.getElementById('iframe').contentWindow.document.body.innerText
+                    console.log('new content is', documentConent)
+                } catch (error) {
+                    console.log('Cannot get new content, error is', JSON.stringify(error))
+                }
                 console.log('new content is', document.getElementById('iframe').contentWindow.document.body.innerHTML)
                 currentActiveIframe = nextActiveIframe
                 console.log('Switching succesful, new active is', currentActiveIframe);
